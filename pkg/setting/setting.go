@@ -3,6 +3,7 @@ package setting
 import (
 	"github.com/go-ini/ini"
 	"log"
+	"os"
 	"time"
 )
 
@@ -18,7 +19,8 @@ var (
 
 func init() {
 	var err error
-	Cfg, err = ini.Load("../../conf/api.ini")
+	filepath := os.Getenv("BASE") + "/conf/api.ini"
+	Cfg, err = ini.Load(filepath)
 	if err != nil {
 		log.Fatalf("配置文件载入失败: %v",err)
 	}

@@ -1,13 +1,15 @@
 package util
 
 import (
-	"github.com/gin-gonic/gin"
 	"github.com/siconghe/blog/pkg/setting"
 	"github.com/unknwon/com"
 )
 
+type Queryable interface {
+	Query(key string) string
+}
 
-func GetPage(c *gin.Context) int{
+func GetPage(c Queryable) int{
 	ret :=0
 	page,_ := com.StrTo(c.Query("page")).Int()
 	if page > 0 {
