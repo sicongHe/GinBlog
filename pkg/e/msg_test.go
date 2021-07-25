@@ -21,7 +21,7 @@ var(
 	}
 )
 
-func TestMsg(t *testing.T) {
+func TestGetMsg(t *testing.T) {
 	for key,value := range want{
 		t.Run(fmt.Sprintf("错误信息测试：%s",value), func(t *testing.T) {
 			checkMsg(key,value,t)
