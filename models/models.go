@@ -14,20 +14,7 @@ var(
 )
 
 
-type Tag struct {
-	gorm.Model
 
-	Name string `json:"name"`
-	CreatedBy string `json:"created_by"`
-	ModifiedBy string `json:"modified_by"`
-	State int `json:"state"`
-}
-
-func (t *Tag)CreateTable() {
-	if !DB.Migrator().HasTable(t) {
-		DB.Set("gorm:table_options", "ENGINE=InnoDB").Migrator().CreateTable(t)
-	}
-}
 
 func InitDB() {
 	var (
@@ -66,12 +53,3 @@ func InitDB() {
 }
 
 
-func GetTags(pageNum int, pageSize int, maps interface{})(tags []Tag){
-	DB.Where(maps).Offset(pageNum).Limit(pageSize).Find(&tags)
-	return
-}
-
-func GetTagTotal(maps interface{})(count int64) {
-	DB.Model(&Tag{}).Where(maps).Count(&count)
-	return
-}

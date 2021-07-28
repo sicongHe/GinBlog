@@ -18,11 +18,11 @@ func AssertErrShouldBeNil(err error,t *testing.T) {
 		t.Errorf("Err应该为空！错误信息:%v",err)
 	}
 }
-var mock sqlmock.Sqlmock
+var Mock sqlmock.Sqlmock
 func MockDB() {
 	var err error
 	var db *sql.DB
-	db, mock, err = sqlmock.New()
+	db, Mock, err = sqlmock.New()
 	if nil != err {
 		log.Fatalf("Init sqlmock failed, err %v", err)
 	}
