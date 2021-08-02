@@ -3,6 +3,7 @@ package main
 import (
 	"context"
 	"fmt"
+	_ "github.com/siconghe/blog/docs"
 	"github.com/siconghe/blog/models"
 	"github.com/siconghe/blog/pkg/setting"
 	"github.com/siconghe/blog/routers"
@@ -12,7 +13,10 @@ import (
 	"os/signal"
 	"time"
 )
+//...
 
+// @title Gin Blog
+// @version 1.0
 func main()  {
 	models.InitDB()
 	router := routers.InitRouter()

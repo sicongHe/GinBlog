@@ -6,6 +6,8 @@ import (
 	"github.com/siconghe/blog/pkg/setting"
 	"github.com/siconghe/blog/routers/api"
 	v1 "github.com/siconghe/blog/routers/api/v1"
+	"github.com/swaggo/files"
+	"github.com/swaggo/gin-swagger"
 )
 
 func InitRouter() *gin.Engine {
@@ -14,7 +16,7 @@ func InitRouter() *gin.Engine {
 	r.Use(gin.Recovery())
 	gin.SetMode(setting.RunMode)
 	r.GET("/auth", api.GetAuth)
-
+	r.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 	apiv1 := r.Group("/api/v1").Use(jwt.JWT())
 	{
 		//获取标签列表
