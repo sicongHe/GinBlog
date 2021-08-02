@@ -1,14 +1,15 @@
 package v1
 
 import (
+	"fmt"
 	"github.com/astaxie/beego/validation"
 	"github.com/gin-gonic/gin"
 	"github.com/siconghe/blog/models"
 	"github.com/siconghe/blog/pkg/e"
+	"github.com/siconghe/blog/pkg/logging"
 	"github.com/siconghe/blog/pkg/setting"
 	"github.com/siconghe/blog/pkg/util"
 	"github.com/unknwon/com"
-	"log"
 	"net/http"
 )
 
@@ -27,7 +28,7 @@ func GetArticle(c *gin.Context) {
 		}
 	} else {
 		for _, err := range valid.Errors {
-			log.Printf("err.key: %s, err.message: %s", err.Key, err.Message)
+			logging.Info("err.key: %s, err.message: %s", err.Key, err.Message)
 		}
 	}
 
@@ -65,7 +66,7 @@ func GetArticles(c *gin.Context){
 
 	} else {
 		for _, err := range valid.Errors {
-			log.Printf("err.key: %s, err.message: %s", err.Key, err.Message)
+			logging.Info(fmt.Sprintf("err.key: %s, err.message: %s", err.Key, err.Message))
 		}
 	}
 	c.JSON(http.StatusOK,gin.H{
@@ -107,7 +108,7 @@ func AddArticle(c *gin.Context){
 		}
 	} else {
 		for _, err := range valid.Errors {
-			log.Printf("err.key: %s, err.message: %s", err.Key, err.Message)
+			logging.Info(fmt.Sprintf("err.key: %s, err.message: %s", err.Key, err.Message))
 		}
 	}
 	c.JSON(http.StatusOK, gin.H{
@@ -189,7 +190,7 @@ func DeleteArticle(c *gin.Context) {
 		}
 	} else {
 		for _, err := range valid.Errors {
-			log.Printf("err.key: %s, err.message: %s", err.Key, err.Message)
+			logging.Info(fmt.Sprintf("err.key: %s, err.message: %s", err.Key, err.Message))
 		}
 	}
 
