@@ -1,31 +1,47 @@
 package main
 
 import (
+	"context"
 	"fmt"
 	"github.com/siconghe/blog/models"
 	"github.com/siconghe/blog/pkg/setting"
 	"github.com/siconghe/blog/routers"
+	"log"
 	"net/http"
+	"os"
+	"os/signal"
+	"time"
 )
 
 func main()  {
 	models.InitDB()
 	router := routers.InitRouter()
-	server := &http.Server{
-		Addr:              fmt.Sprintf("0.0.0.0:%d", setting.HTTPPort),
-		Handler:           router,
-		TLSConfig:         nil,
-		ReadTimeout:       setting.ReadTimeout,
-		ReadHeaderTimeout: 0,
-		WriteTimeout:      setting.WriteTimeout,
-		IdleTimeout:       0,
-		MaxHeaderBytes:    1 << 20, //1<<20也就是1*2^20=1MB
-		TLSNextProto:      nil,
-		ConnState:         nil,
-		ErrorLog:          nil,
-		BaseContext:       nil,
-		ConnContext:       nil,
+
+	s := &http.Server{
+		Addr:           fmt.Sprintf(":%d", setting.HTTPPort),
+		Handler:        router,
+		ReadTimeout:    setting.ReadTimeout,
+		WriteTimeout:   setting.WriteTimeout,
+		MaxHeaderBytes: 1 << 20,
 	}
-	server.ListenAndServe()
+
+	go func() {
+		if err := s.ListenAndServe(); err != nil {
+			log.Printf("Listen: %s\n", err)
+		}
+	}()
+
+	quit := make(chan os.Signal)
+	signal.Notify(quit, os.Interrupt)
+	<- quit
+	log.Println("Shutdown Server ...")
+
+	ctx, cancel := context.WithTimeout(context.Background(), 5 * time.Second)
+	defer cancel()
+	if err := s.Shutdown(ctx); err != nil {
+		log.Fatal("Server Shutdown:", err)
+	}
+
+	log.Println("Server exiting")
 
 }
