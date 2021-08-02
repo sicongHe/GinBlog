@@ -3,4 +3,4 @@ docker-compose.yml
 data/
 vendor/
 TODO
-/runtime/logs
+/runtime/logs/*
