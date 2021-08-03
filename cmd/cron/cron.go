@@ -8,7 +8,7 @@ import (
 )
 
 func main() {
-	models.InitDB()
+	models.Setup()
 	log.Println("Starting...")
 	c := cron.New()
 	c.AddFunc("* * * * * *", func() {

@@ -1,8 +1,10 @@
 package jwt
 
 import (
+	"fmt"
 	"github.com/gin-gonic/gin"
 	"github.com/siconghe/blog/pkg/e"
+	"github.com/siconghe/blog/pkg/logging"
 	"github.com/siconghe/blog/pkg/util"
 	"net/http"
 	"time"
@@ -32,7 +34,7 @@ func JWT() gin.HandlerFunc {
 				"msg" : e.GetMsg(code),
 				"data" : data,
 			})
-
+			logging.Info(fmt.Sprintf("鉴权失败：%s",e.GetMsg(code)))
 			c.Abort()
 			return
 		}

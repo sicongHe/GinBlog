@@ -1,6 +1,7 @@
 package api
 
 import (
+	"fmt"
 	"github.com/astaxie/beego/validation"
 	"github.com/gin-gonic/gin"
 	"github.com/siconghe/blog/models"
@@ -28,7 +29,7 @@ func GetAuth(c *gin.Context) {
 	if ok {
 		userid,isExist := models.CheckAuth(username, password)
 		if isExist {
-			token, err := util.GenerateToken(username, string(userid))
+			token, err := util.GenerateToken(username, fmt.Sprintf("%d",userid))
 			if err != nil {
 				code = e.ERROR_AUTH_TOKEN
 			} else {

@@ -13,7 +13,7 @@ func GetPage(c Queryable) int{
 	ret :=0
 	page,_ := com.StrTo(c.Query("page")).Int()
 	if page > 0 {
-		ret = (page - 1) * setting.PageSize
+		ret = (page - 1) * setting.AppSetting.PageSize
 	}
 	return ret
 }

@@ -3,6 +3,7 @@ package routers_test
 import (
 	"errors"
 	"fmt"
+	"github.com/siconghe/blog/pkg/setting"
 	"github.com/siconghe/blog/pkg/util"
 	"github.com/siconghe/blog/routers"
 	"net/http"
@@ -14,6 +15,7 @@ import (
 
 
 func TestTags(t *testing.T) {
+	setting.Setup()
 	t.Run("testing:api/v1 GetTags", func(t *testing.T) {
 		want := "{\"code\":200,\"data\":{\"lists\":null,\"total\":0},\"msg\":\"ok\"}"
 		got,err := assertGotFromGetRouter("/api/v1/tags",t)

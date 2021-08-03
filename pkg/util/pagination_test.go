@@ -19,10 +19,11 @@ func (mq *MockQueryable)Query(key string) string{
 }
 
 func TestPagination(t *testing.T) {
+	setting.Setup()
 	mq := &MockQueryable{
 		map[string]string{"page":"11"},
 	}
-	want := (11 - 1 ) * setting.PageSize
+	want := (11 - 1 ) * setting.AppSetting.PageSize
 	got := util.GetPage(mq)
 	if want != got {
 		t.Errorf("Pagination测试失败，got: %v, want: %v",got,want)

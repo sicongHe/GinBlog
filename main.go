@@ -5,6 +5,7 @@ import (
 	"fmt"
 	_ "github.com/siconghe/blog/docs"
 	"github.com/siconghe/blog/models"
+	"github.com/siconghe/blog/pkg/logging"
 	"github.com/siconghe/blog/pkg/setting"
 	"github.com/siconghe/blog/routers"
 	"log"
@@ -18,14 +19,16 @@ import (
 // @title Gin Blog
 // @version 1.0
 func main()  {
-	models.InitDB()
+	setting.Setup()
+	models.Setup()
+	logging.Setup()
 	router := routers.InitRouter()
 
 	s := &http.Server{
-		Addr:           fmt.Sprintf(":%d", setting.HTTPPort),
+		Addr:           fmt.Sprintf(":%d", setting.ServerSetting.HttpPort),
 		Handler:        router,
-		ReadTimeout:    setting.ReadTimeout,
-		WriteTimeout:   setting.WriteTimeout,
+		ReadTimeout:    setting.ServerSetting.ReadTimeout,
+		WriteTimeout:   setting.ServerSetting.WriteTimeout,
 		MaxHeaderBytes: 1 << 20,
 	}
 

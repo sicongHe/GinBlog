@@ -16,21 +16,17 @@ var(
 
 
 
-func InitDB() {
+func Setup() {
 	var (
 		err error
 		dbType, dbName, user, password, host, tablePrefix string
 	)
-	section,err :=setting.Cfg.GetSection("database")
-	if err != nil {
-		log.Fatal("配置读取失败，配置项：[database]")
-	}
-	dbType = section.Key("TYPE").String()
-	dbName = section.Key("NAME").String()
-	user = section.Key("USER").String()
-	password = section.Key("PASSWORD").String()
-	host = section.Key("HOST").String()
-	tablePrefix = section.Key("TABLE_PREFIX").String()
+	dbType = setting.DatabaseSetting.Type
+	dbName = setting.DatabaseSetting.Name
+	user = setting.DatabaseSetting.User
+	password = setting.DatabaseSetting.Password
+	host = setting.DatabaseSetting.Host
+	tablePrefix = setting.DatabaseSetting.TablePrefix
 	switch dbType {
 	case "mysql":DB,err = gorm.Open(mysql.Open(fmt.Sprintf("%s:%s@tcp(%s)/%s?charset=utf8mb4&parseTime=True&loc=Local",
 		user,
