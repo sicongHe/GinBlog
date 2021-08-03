@@ -1,13 +1,17 @@
 package routers
 
 import (
+	"fmt"
 	"github.com/gin-gonic/gin"
 	"github.com/siconghe/blog/middleware/jwt"
 	"github.com/siconghe/blog/pkg/setting"
+	"github.com/siconghe/blog/pkg/upload"
 	"github.com/siconghe/blog/routers/api"
 	v1 "github.com/siconghe/blog/routers/api/v1"
 	"github.com/swaggo/files"
 	"github.com/swaggo/gin-swagger"
+	"net/http"
+	"os"
 )
 
 func InitRouter() *gin.Engine {
@@ -15,8 +19,12 @@ func InitRouter() *gin.Engine {
 	r.Use(gin.Logger())
 	r.Use(gin.Recovery())
 	gin.SetMode(setting.ServerSetting.RunMode)
+	r.StaticFS("/upload/images",http.Dir(upload.GetImageFullPath()))
+	fmt.Println(http.Dir(upload.GetImageFullPath()))
+	fmt.Println(os.Getwd())
 	r.GET("/auth", api.GetAuth)
 	r.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
+	r.POST("/upload",api.UploadImage)
 	apiv1 := r.Group("/api/v1").Use(jwt.JWT())
 	{
 		//获取标签列表
