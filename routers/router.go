@@ -1,7 +1,6 @@
 package routers
 
 import (
-	"fmt"
 	"github.com/gin-gonic/gin"
 	"github.com/siconghe/blog/middleware/jwt"
 	"github.com/siconghe/blog/pkg/setting"
@@ -11,7 +10,6 @@ import (
 	"github.com/swaggo/files"
 	"github.com/swaggo/gin-swagger"
 	"net/http"
-	"os"
 )
 
 func InitRouter() *gin.Engine {
@@ -20,8 +18,6 @@ func InitRouter() *gin.Engine {
 	r.Use(gin.Recovery())
 	gin.SetMode(setting.ServerSetting.RunMode)
 	r.StaticFS("/upload/images",http.Dir(upload.GetImageFullPath()))
-	fmt.Println(http.Dir(upload.GetImageFullPath()))
-	fmt.Println(os.Getwd())
 	r.GET("/auth", api.GetAuth)
 	r.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 	r.POST("/upload",api.UploadImage)

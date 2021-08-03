@@ -3,11 +3,13 @@ package main
 import (
 	"github.com/robfig/cron"
 	"github.com/siconghe/blog/models"
+	"github.com/siconghe/blog/pkg/setting"
 	"log"
 	"time"
 )
 
 func main() {
+	setting.Setup()
 	models.Setup()
 	log.Println("Starting...")
 	c := cron.New()
